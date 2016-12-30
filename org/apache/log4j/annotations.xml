@@ -1,5 +1,0 @@
-<root>
-    <item name='org.apache.log4j.PatternLayout'>
-        <annotation name='java.lang.Deprecated'/>
-    </item>
-</root>
