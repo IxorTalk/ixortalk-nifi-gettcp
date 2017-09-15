@@ -59,7 +59,7 @@ public class TcpClientHandler extends SimpleChannelInboundHandler<Object> {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("Connected to " + ctx.channel().remoteAddress());
+        log.info("Connected " + ctx.channel().localAddress() + " to " + ctx.channel().remoteAddress());
     }
 
     public void setLog(ComponentLog log) {
@@ -93,7 +93,7 @@ public class TcpClientHandler extends SimpleChannelInboundHandler<Object> {
      */
     @Override
     public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
-        log.info("Channel marked inactive. Disconnected from " + ctx.channel().remoteAddress());
+        log.info("Channel marked inactive. Disconnected " + ctx.channel().localAddress() + " from " + ctx.channel().remoteAddress());
         log.info("Sleeping for " + reconnectDelayInSeconds + "s before reconnecting");
 
         final EventLoop loop = ctx.channel().eventLoop();
@@ -117,7 +117,7 @@ public class TcpClientHandler extends SimpleChannelInboundHandler<Object> {
             // The connection was OK but there was no traffic for last period.
             log.error("Disconnecting due to no inbound traffic.");
         } else {
-            log.error("Disconnecting due to unknown error.");
+            log.error("Disconnecting due to unknown error",cause);
             cause.printStackTrace();
         }
         ctx.close();
